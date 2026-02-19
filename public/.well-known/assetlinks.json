@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "app.mythbrix.suggestion",
+        "sha256_cert_fingerprints": ["B8:21:56:FE:4A:3F:79:31:63:86:4B:4C:B3:33:17:4A:64:E5:AC:BB:9A:EA:56:73:26:32:0A:05:A0:F1:FE:5F"]
+      }
+    }]
