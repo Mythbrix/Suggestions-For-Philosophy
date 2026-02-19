@@ -13,7 +13,8 @@ import {
   Layers,
   Star,
   AlertCircle,
-  Download
+  Download,
+  Zap
 } from 'lucide-react';
 import { Subject, TabType, TabConfig, SubjectData, Question } from './types';
 
@@ -179,11 +180,11 @@ const MOCK_DB: Record<string, SubjectData> = {
       { id: '2g6', text: 'মার্কসের ঐতিহাসিক বস্তুবাদ ব্যাখ্যা ও মূল্যায়ন কর।', probability: 100 },
       { id: '2g7', text: 'মার্কসীয় দর্শনের উৎসসমূহ আলোচনা কর।', probability: 100 },
       { id: '2g8', text: 'মার্কসীয় দর্শনের আলোকে কাঠামো ও উপরিকাঠামোর ধারণা আলোচনা কর।', probability: 100 },
-      { id: '2g9', text: 'দ্বান্দ্বিক যুক্তিবিদ্যা কী? আকারগত যুক্তিবিদ্যার সাথে দ্বান্দ্বিক যুক্তিবিদ্যার পার্থক্য আলোচনা কর।', probability: 99 }, // Corrected 109%
+      { id: '2g9', text: 'দ্বান্দ্বিক যুক্তিবিদ্যা কী? আকারগত যুক্তিবিদ্যার সাথে দ্বান্দ্বিক যুক্তিবিদ্যার পার্থক্য আলোচনা কর।', probability: 99 },
       { id: '2g10', text: 'অর্থনৈতিক নিয়ন্ত্রণবাদ কী? ঐতিহাসিক বস্তুবাদকে কী অর্থনৈতিক নিয়ন্ত্রণবাদ বলা হয়? ব্যাখ্যা কর।।', probability: 99 },
       { id: '2g11', text: 'মার্কসবাদ ও বিজ্ঞানের মধ্যকার সম্পর্ক ব্যাখ্যা কর।', probability: 99 },
       { id: '2g12', text: 'মার্কসবাদের উদ্ভব ও ক্রমবিকাশ আলোচনা কর।', probability: 99 },
-      { id: '2g13', text: 'কার্ল মার্কস কীভাবে দ্বান্দ্বিক পদ্ধতি ও বস্তুবাদের সমন্বয় করে দ্বান্দ্বিক বস্তুবাদ প্রতিষ্ঠা করেন? আলোচনা কর।', probability: 99 },
+      { id: '2g13', text: 'কার্ল মার্কস কীভাবে দ্বান্দ্বিক পদ্ধতি ও বস্তুবাদের সমন্বয় করে দ্বান্দ্বিক বস্তুবাদ প্রতিষ্ঠা করেন? আলোচনা করা', probability: 99 },
       { id: '2g14', text: 'মার্কসবাদ ও বিজ্ঞানের মধ্যকার সম্পর্ক ব্যাখ্যা কর।', probability: 99 },
       { id: '2g15', text: 'নৈতিকতা বিষয়ে মার্কসীয় মত আলোচনা কর। পুঁজিবাদী শোষণ কী নৈতিকতা বিরোধী।', probability: 99 }
     ]
@@ -565,7 +566,7 @@ const MOCK_DB: Record<string, SubjectData> = {
       { id: '7g1', text: 'অগাস্ট কোঁতের ত্রয়স্তর সূত্র বর্ণনা কর।', probability: 100 },
       { id: '7g2', text: 'হার্বাট স্পেন্সারের সামাজিক বিবর্তন তত্ত্বটি আলোচনা কর।', probability: 100 },
       { id: '7g3', text: 'এমিল ডুরখেইমের শ্রম বিভাজন তত্ত্বটি আলোচনা কর।', probability: 100 },
-      { id: '7g4', text: 'এলিট কি? প্যারেটোর এলিট-আবর্তন তত্ত্বটি আলোচনা কর।', probability: 100 },
+      { id: '7g4', text: 'এলিট কি? প্যারেটোর এলিট-আবর্তন তত্ত্বটি আলোচনা কর।', probability: 100 }, // Corrected 109% to 100%
       { id: '7g5', text: 'মার্কসের উদ্বৃত্ত মূল্য তত্ত্বটি আলোচনা করা', probability: 100 },
       { id: '7g6', text: 'কর্তৃত্ব কী? ম্যাক্স ওয়েবারের কর্তৃত্ব তত্ত্বটির বিবরণ দাও।', probability: 100 },
       { id: '7g7', text: 'সমাজ দর্শনে ইবনে খালদুনের অবদান সংক্ষেপে আলোচনা কর।', probability: 100 },
@@ -617,8 +618,8 @@ const MOCK_DB: Record<string, SubjectData> = {
       { id: '8k38', text: '"নৈতিক উক্তিসমূহ হয় পরামর্শমূলক"-উক্তিটি কার?', answer: '"নৈতিক উক্তিসমূহ হয় পরামর্শমূলক-উক্তিটি আর, এম. হেয়ারের।' }
     ],
     kha: [
-      { id: '8kh1', text: 'ম্যুরের মতে \'ভাল\' কী?', probability: 100 },
-      { id: '8kh2', text: 'পরানীতিবিদ্যার কাজ কী?', probability: 100 },
+      { id: '8kh1', text: 'ম্যুরের মতে \'ভাল\' কী?', probability: 100 }, // Corrected 109% to 100%
+      { id: '8kh2', text: 'পরানীতিবিদ্যার কাজ কী?', probability: 100 }, // Corrected 109% to 100%
       { id: '8kh3', text: 'নৈতিক উক্তি কেন অর্থহীন?', probability: 100 },
       { id: '8kh4', text: 'হেয়ার এর সার্বজনীন নীতি কী?', probability: 100 },
       { id: '8kh5', text: 'স্বজ্ঞাবাদের বৈশিষ্ট্যসমূহ লিখ।', probability: 100 },
@@ -636,8 +637,8 @@ const MOCK_DB: Record<string, SubjectData> = {
       { id: '8g1', text: 'পরানীতিবিদ্যা কি? পরানীতিবিদ্যার ক্রমবিকাশ আলোচনা কর।', probability: 100 },
       { id: '8g2', text: 'ডেভিড রস এর স্বজ্ঞাবাদকে পরিণতিমুক্ত মতবাদ বলা হয় কেন?', probability: 100 },
       { id: '8g3', text: 'স্টিভেনসনের নৈতিক বিরোধ মতবাদ ব্যাখ্যা কর।', probability: 100 },
-      { id: '8g4', text: 'প্রকৃতিবাদী অনুপপত্তি কী? ম্যুরের মতে মিল ও ব্রাডলী কীভাবে এ অনুপপত্তি ঘটান? ব্যাখ্যা কর।', probability: 100 },
-      { id: '8g5', text: 'বর্ণনাবাদ কী? সার্লের বর্ণনাবাদ ব্যাখ্যা কর।', probability: 100 },
+      { id: '8g4', text: 'প্রকৃতিবাদী অনুপপত্তি কী? ম্যুরের মতে মিল ও ব্রাডলী কীভাবে এ অনুপপত্তি ঘটান? ব্যাখ্যা কর।', probability: 100 }, // Corrected 109% to 100%
+      { id: '8g5', text: 'বর্ণনাবাদ কী? সার্লের বর্ণনাবাদ ব্যাখ্যা কর।', probability: 100 }, // Corrected 109% to 100%
       { id: '8g6', text: '\'হয় উচিত\' সমস্যা সম্পর্কিত সার্লে-হেয়ারের বিতর্কটি ব্যাখ্যা কর।', probability: 100 },
       { id: '8g7', text: 'এয়ারের আবেগবাদ ব্যাখ্যা করা', probability: 100 },
       { id: '8g8', text: 'ম্যুরের মতে নৈতিক বাধ্যবাধকতা পরিণতিমূলক মতবাদ বলা হয় কেন?', probability: 100 },
@@ -739,6 +740,54 @@ const sanitizeText = (text: string): string => {
     .trim();
 };
 
+const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    // Start fading out after 2 seconds
+    const fadeTimer = setTimeout(() => setFading(true), 2000);
+    // Unmount after animation completes (2.5s total)
+    const finishTimer = setTimeout(onFinish, 2500);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(finishTimer);
+    };
+  }, [onFinish]);
+
+  return (
+    <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-indigo-900 to-purple-900 text-white transition-opacity duration-500 ease-out ${fading ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      <div className="text-center space-y-6 animate-fade-in-up px-6">
+         <div className="inline-block p-3 rounded-2xl bg-white/10 backdrop-blur-sm mb-4 border border-white/10 shadow-2xl">
+            <BookOpen size={48} className="text-purple-300" />
+         </div>
+         <h1 className="text-3xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
+           Hons Final Year Suggestion
+         </h1>
+         <div className="h-px w-24 bg-purple-400/50 mx-auto"></div>
+         <p className="text-lg md:text-xl font-light opacity-90 tracking-[0.2em] uppercase text-purple-100">
+           Department of Philosophy
+         </p>
+         
+         <div className="mt-12 w-48 h-1 bg-white/10 rounded-full mx-auto overflow-hidden">
+           <div className="h-full bg-gradient-to-r from-purple-400 to-pink-400 w-1/3 animate-[loading_1.5s_ease-in-out_infinite]"></div>
+         </div>
+      </div>
+      
+      <div className="absolute bottom-10 text-xs text-purple-300/60 font-mono">
+        v1.0.0 • 2026 Edition
+      </div>
+      
+      <style>{`
+        @keyframes loading {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(300%); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   // --- State Management ---
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -746,6 +795,7 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('ka');
   const [selectedSubject, setSelectedSubject] = useState<Subject>(SUBJECTS[0]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   
   // Accordion state for Ka-Bibhag
   const [expandedQuestionId, setExpandedQuestionId] = useState<string | null>(null);
@@ -841,302 +891,311 @@ const App: React.FC = () => {
   const hasData = currentData.length > 0;
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
-      <div className="bg-gray-50 dark:bg-gray-950 min-h-screen text-gray-900 dark:text-gray-100 font-sans antialiased">
-        
-        {/* Header - Inlined to fix input focus issue */}
-        <header className="fixed top-0 left-0 right-0 z-40 h-16 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
-          <div className="h-full flex items-center justify-between px-4 max-w-7xl mx-auto">
-            <button 
-              onClick={() => setIsSidebarOpen(true)}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors"
-              aria-label="Open Menu"
-            >
-              <Menu size={24} />
-            </button>
-
-            <div className="flex-1 mx-4 max-w-md">
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search size={18} className="text-gray-400 group-focus-within:text-primary-500 transition-colors" />
-                </div>
-                <input
-                  type="text"
-                  placeholder={activeTab === 'ka' ? "Search Q&A..." : "Search questions..."}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-gray-100 dark:bg-dark-800 text-gray-800 dark:text-gray-100 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all text-sm"
-                />
-              </div>
-            </div>
-
-            <button 
-              onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-yellow-400 transition-colors"
-              aria-label="Toggle Theme"
-            >
-              {darkMode ? <Moon size={24} /> : <Sun size={24} />}
-            </button>
-          </div>
-        </header>
-
-        {/* Sidebar */}
-        <>
-          {isSidebarOpen && (
-            <div 
-              className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm transition-opacity"
-              onClick={() => setIsSidebarOpen(false)}
-            />
-          )}
+    <>
+      {isLoading && <SplashScreen onFinish={() => setIsLoading(false)} />}
+      
+      <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark' : ''} ${isLoading ? 'hidden' : 'block'}`}>
+        <div className="bg-gray-50 dark:bg-gray-950 min-h-screen text-gray-900 dark:text-gray-100 font-sans antialiased">
           
-          <aside 
-            className={`fixed top-0 left-0 h-full w-80 bg-white dark:bg-dark-900 z-50 transform transition-transform duration-300 ease-out shadow-2xl border-r border-gray-200 dark:border-gray-800 flex flex-col ${
-              isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-            }`}
-          >
-            <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 dark:border-gray-800">
-              <span className="font-bold text-xl text-primary-600 dark:text-primary-500 tracking-tight">
-                অনার্স ৪র্থ বর্ষ
-              </span>
+          {/* Header - Inlined to fix input focus issue */}
+          <header className="fixed top-0 left-0 right-0 z-40 h-16 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div className="h-full flex items-center justify-between px-4 max-w-7xl mx-auto">
               <button 
-                onClick={() => setIsSidebarOpen(false)}
-                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500"
+                onClick={() => setIsSidebarOpen(true)}
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors"
+                aria-label="Open Menu"
               >
-                <X size={20} />
+                <Menu size={24} />
+              </button>
+
+              <div className="flex-1 mx-4 max-w-md">
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Search size={18} className="text-gray-400 group-focus-within:text-primary-500 transition-colors" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder={activeTab === 'ka' ? "Search Q&A..." : "Search questions..."}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-gray-100 dark:bg-dark-800 text-gray-800 dark:text-gray-100 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <button 
+                onClick={toggleTheme}
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-yellow-400 transition-colors"
+                aria-label="Toggle Theme"
+              >
+                {darkMode ? <Moon size={24} /> : <Sun size={24} />}
               </button>
             </div>
+          </header>
 
-            <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
-              {/* PWA Install Button inside Menu */}
-              {deferredPrompt && (
-                <div className="mb-4">
-                  <button 
-                    onClick={handleInstallClick}
-                    className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-primary-600 to-purple-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all"
-                  >
-                    <Download size={20} />
-                    <span className="font-semibold text-sm">Install App</span>
-                  </button>
+          {/* Sidebar */}
+          <>
+            {isSidebarOpen && (
+              <div 
+                className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm transition-opacity"
+                onClick={() => setIsSidebarOpen(false)}
+              />
+            )}
+            
+            <aside 
+              className={`fixed top-0 left-0 h-full w-80 bg-white dark:bg-dark-900 z-50 transform transition-transform duration-300 ease-out shadow-2xl border-r border-gray-200 dark:border-gray-800 flex flex-col ${
+                isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+              }`}
+            >
+              <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 dark:border-gray-800">
+                <span className="font-bold text-xl text-primary-600 dark:text-primary-500 tracking-tight">
+                  অনার্স ৪র্থ বর্ষ
+                </span>
+                <button 
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
+                {/* PWA Install Button inside Menu */}
+                {deferredPrompt && (
+                  <div className="mb-4">
+                    <button 
+                      onClick={handleInstallClick}
+                      className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-primary-600 to-purple-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all"
+                    >
+                      <Download size={20} />
+                      <span className="font-semibold text-sm">Install App</span>
+                    </button>
+                  </div>
+                )}
+
+                <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
+                  বিষয় তালিকা (Subjects)
                 </div>
-              )}
-
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">
-                বিষয় তালিকা (Subjects)
-              </div>
-              <div className="space-y-1">
-                {SUBJECTS.map((subject) => (
-                  <button
-                    key={subject.id}
-                    onClick={() => {
-                      setSelectedSubject(subject);
-                      setIsSidebarOpen(false);
-                      setSearchQuery(''); // Reset search on subject change
-                    }}
-                    className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left transition-all duration-200 group ${
-                      selectedSubject.id === subject.id
-                        ? 'bg-primary-50 dark:bg-primary-500/10 text-primary-700 dark:text-primary-300'
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-800'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <BookOpen size={18} className={selectedSubject.id === subject.id ? 'text-primary-500' : 'text-gray-400'} />
-                      <div>
-                        <div className="text-sm font-medium">{subject.name}</div>
-                        <div className="text-xs opacity-70">Code: {subject.code}</div>
+                <div className="space-y-1">
+                  {SUBJECTS.map((subject) => (
+                    <button
+                      key={subject.id}
+                      onClick={() => {
+                        setSelectedSubject(subject);
+                        setIsSidebarOpen(false);
+                        setSearchQuery(''); // Reset search on subject change
+                      }}
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-left transition-all duration-200 group ${
+                        selectedSubject.id === subject.id
+                          ? 'bg-primary-50 dark:bg-primary-500/10 text-primary-700 dark:text-primary-300'
+                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-800'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <BookOpen size={18} className={selectedSubject.id === subject.id ? 'text-primary-500' : 'text-gray-400'} />
+                        <div>
+                          <div className="text-sm font-medium">{subject.name}</div>
+                          <div className="text-xs opacity-70">Code: {subject.code}</div>
+                        </div>
                       </div>
-                    </div>
-                    {selectedSubject.id === subject.id && <ChevronRight size={16} />}
-                  </button>
-                ))}
+                      {selectedSubject.id === subject.id && <ChevronRight size={16} />}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="p-4 border-t border-gray-100 dark:border-gray-800">
-              <div className="bg-gradient-to-r from-primary-500 to-purple-600 rounded-xl p-4 text-white shadow-lg">
-                <p className="text-xs font-medium opacity-80">পরীক্ষা ২০২৪ (অনুষ্ঠিত ২০২৬)</p>
-                <p className="text-sm font-bold mt-1">সাজেশন আপডেট করা হয়েছে</p>
+              <div className="p-4 border-t border-gray-100 dark:border-gray-800">
+                <div className="flex flex-col items-center justify-center p-2">
+                  <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Developed with <span className="text-red-500">♥</span></p>
+                  <div className="flex items-center gap-1.5">
+                    <Zap size={14} className="text-purple-500 animate-pulse" />
+                    <p className="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 animate-pulse">
+                      Powered By Mythbrix
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </aside>
-        </>
+            </aside>
+          </>
 
-        {/* Content Area */}
-        <main className="pt-20 pb-24 px-4 max-w-3xl mx-auto min-h-screen">
-          {/* Header */}
-          <div className="mb-6 animate-fade-in-up">
-            <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300 mb-2">
-              Code: {selectedSubject.code}
+          {/* Content Area */}
+          <main className="pt-20 pb-24 px-4 max-w-3xl mx-auto min-h-screen">
+            {/* Header */}
+            <div className="mb-6 animate-fade-in-up">
+              <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300 mb-2">
+                Code: {selectedSubject.code}
+              </div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
+                {selectedSubject.name}
+              </h1>
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                {currentTabInfo?.fullLabel} • {currentData.length} টি প্রশ্ন
+              </p>
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
-              {selectedSubject.name}
-            </h1>
-            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-              {currentTabInfo?.fullLabel} • {currentData.length} টি প্রশ্ন
-            </p>
-          </div>
 
-          {/* Content List */}
-          <div className="space-y-4">
-            {!hasData ? (
-               <div className="flex flex-col items-center justify-center py-12 text-center">
-                 <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-full mb-4">
-                   <AlertCircle size={32} className="text-gray-400" />
+            {/* Content List */}
+            <div className="space-y-4">
+              {!hasData ? (
+                 <div className="flex flex-col items-center justify-center py-12 text-center">
+                   <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-full mb-4">
+                     <AlertCircle size={32} className="text-gray-400" />
+                   </div>
+                   <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">কোন তথ্য পাওয়া যায়নি</h3>
+                   <p className="text-gray-500 text-sm mt-1">
+                     {searchQuery ? "অন্য কিছু অনুসন্ধান করুন" : "এই বিষয়ের জন্য এখন ও কোন সাজেশন নেই"}
+                   </p>
                  </div>
-                 <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">কোন তথ্য পাওয়া যায়নি</h3>
-                 <p className="text-gray-500 text-sm mt-1">
-                   {searchQuery ? "অন্য কিছু অনুসন্ধান করুন" : "এই বিষয়ের জন্য এখন ও কোন সাজেশন নেই"}
-                 </p>
-               </div>
-            ) : (
-              currentData.map((item, index) => {
-                const sanitizedQuestion = sanitizeText(item.text);
+              ) : (
+                currentData.map((item, index) => {
+                  const sanitizedQuestion = sanitizeText(item.text);
 
-                // --- RENDER KA-BIBHAG (Accordion) ---
-                if (activeTab === 'ka') {
-                  const isExpanded = expandedQuestionId === item.id;
-                  const sanitizedAnswer = sanitizeText(item.answer || '');
-                  return (
-                    <div 
-                      key={item.id}
-                      onClick={() => toggleAccordion(item.id)}
-                      className={`bg-white dark:bg-dark-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700/50 overflow-hidden transition-all duration-300 cursor-pointer ${isExpanded ? 'ring-2 ring-primary-500/20 dark:ring-primary-500/10' : ''}`}
-                    >
-                      <div className="p-4 md:p-5 flex gap-4">
-                        <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-bold text-sm">
-                          {index + 1}
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-gray-900 dark:text-gray-100 font-medium text-lg leading-snug">
-                            {sanitizedQuestion}
-                          </h3>
-                        </div>
-                        <ChevronDown 
-                          size={20} 
-                          className={`text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180 text-primary-500' : ''}`} 
-                        />
-                      </div>
-                      
-                      <div className={`transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="px-5 pb-5 pl-[4.5rem]">
-                          <div className="p-3 bg-gray-50 dark:bg-gray-700/30 rounded-xl text-gray-700 dark:text-gray-300 leading-relaxed text-base border-l-2 border-primary-400">
-                            {sanitizedAnswer}
+                  // --- RENDER KA-BIBHAG (Accordion) ---
+                  if (activeTab === 'ka') {
+                    const isExpanded = expandedQuestionId === item.id;
+                    const sanitizedAnswer = sanitizeText(item.answer || '');
+                    return (
+                      <div 
+                        key={item.id}
+                        onClick={() => toggleAccordion(item.id)}
+                        className={`bg-white dark:bg-dark-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700/50 overflow-hidden transition-all duration-300 cursor-pointer ${isExpanded ? 'ring-2 ring-primary-500/20 dark:ring-primary-500/10' : ''}`}
+                      >
+                        <div className="p-4 md:p-5 flex gap-4">
+                          <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-bold text-sm">
+                            {index + 1}
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                } 
-                
-                // --- RENDER KHA/GA-BIBHAG (Cards with Badges) ---
-                else {
-                  return (
-                    <div 
-                      key={item.id}
-                      className="bg-white dark:bg-dark-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700/50 hover:shadow-md transition-shadow"
-                    >
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-bold text-sm mt-0.5">
-                          {index + 1}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex flex-col-reverse sm:flex-row sm:items-start sm:justify-between gap-2">
+                          <div className="flex-1">
                             <h3 className="text-gray-900 dark:text-gray-100 font-medium text-lg leading-snug">
                               {sanitizedQuestion}
                             </h3>
-                            
-                            {/* Probability Badge */}
-                            {item.probability && (
-                              <div className={`flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold shadow-sm self-start
-                                ${item.probability >= 99 
-                                  ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 border border-red-200 dark:border-red-800' 
-                                  : item.probability >= 90
-                                  ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 border border-orange-200 dark:border-orange-800'
-                                  : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
-                                }
-                              `}>
-                                <Star size={10} className="fill-current" />
-                                {item.probability}%
-                              </div>
-                            )}
+                          </div>
+                          <ChevronDown 
+                            size={20} 
+                            className={`text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180 text-primary-500' : ''}`} 
+                          />
+                        </div>
+                        
+                        <div className={`transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                          <div className="px-5 pb-5 pl-[4.5rem]">
+                            <div className="p-3 bg-gray-50 dark:bg-gray-700/30 rounded-xl text-gray-700 dark:text-gray-300 leading-relaxed text-base border-l-2 border-primary-400">
+                              {sanitizedAnswer}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                }
-              })
-            )}
-          </div>
+                    );
+                  } 
+                  
+                  // --- RENDER KHA/GA-BIBHAG (Cards with Badges) ---
+                  else {
+                    return (
+                      <div 
+                        key={item.id}
+                        className="bg-white dark:bg-dark-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700/50 hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-bold text-sm mt-0.5">
+                            {index + 1}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex flex-col-reverse sm:flex-row sm:items-start sm:justify-between gap-2">
+                              <h3 className="text-gray-900 dark:text-gray-100 font-medium text-lg leading-snug">
+                                {sanitizedQuestion}
+                              </h3>
+                              
+                              {/* Probability Badge */}
+                              {item.probability && (
+                                <div className={`flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold shadow-sm self-start
+                                  ${item.probability >= 99 
+                                    ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 border border-red-200 dark:border-red-800' 
+                                    : item.probability >= 90
+                                    ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 border border-orange-200 dark:border-orange-800'
+                                    : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
+                                  }
+                                `}>
+                                  <Star size={10} className="fill-current" />
+                                  {item.probability}%
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                })
+              )}
+            </div>
 
-          {/* Bottom Spacer for Nav */}
-          <div className="h-8"></div>
-        </main>
+            {/* Bottom Spacer for Nav */}
+            <div className="h-8"></div>
+          </main>
 
-        {/* Install Banner */}
-        {showInstallBanner && deferredPrompt && (
-          <div className="fixed bottom-20 left-4 right-4 z-50 animate-fade-in-up">
-            <div className="bg-dark-900/95 text-white backdrop-blur-md p-4 rounded-xl shadow-2xl flex items-center justify-between border border-gray-700">
-              <div className="flex-1 mr-4">
-                <h4 className="font-bold text-sm">Install App</h4>
-                <p className="text-xs text-gray-300 mt-0.5">Add to Home Screen for offline access</p>
-              </div>
-              <div className="flex gap-2">
-                <button 
-                  onClick={() => setShowInstallBanner(false)}
-                  className="px-3 py-2 text-xs font-medium text-gray-300 hover:text-white transition-colors"
-                >
-                  Later
-                </button>
-                <button 
-                  onClick={handleInstallClick}
-                  className="px-4 py-2 bg-primary-600 hover:bg-primary-500 rounded-lg text-xs font-bold transition-colors shadow-lg"
-                >
-                  Install
-                </button>
+          {/* Install Banner */}
+          {showInstallBanner && deferredPrompt && (
+            <div className="fixed bottom-20 left-4 right-4 z-50 animate-fade-in-up">
+              <div className="bg-dark-900/95 text-white backdrop-blur-md p-4 rounded-xl shadow-2xl flex items-center justify-between border border-gray-700">
+                <div className="flex-1 mr-4">
+                  <h4 className="font-bold text-sm">Install App</h4>
+                  <p className="text-xs text-gray-300 mt-0.5">Add to Home Screen for offline access</p>
+                </div>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => setShowInstallBanner(false)}
+                    className="px-3 py-2 text-xs font-medium text-gray-300 hover:text-white transition-colors"
+                  >
+                    Later
+                  </button>
+                  <button 
+                    onClick={handleInstallClick}
+                    className="px-4 py-2 bg-primary-600 hover:bg-primary-500 rounded-lg text-xs font-bold transition-colors shadow-lg"
+                  >
+                    Install
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Bottom Nav */}
-        <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-gray-800 z-30 pb-safe transition-colors duration-300">
-          <div className="h-full flex items-center justify-around max-w-7xl mx-auto">
-            {TABS.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                  className="relative flex-1 h-full flex flex-col items-center justify-center gap-1 group"
-                >
-                  {isActive && (
-                    <span className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-primary-500 rounded-b-lg shadow-[0_0_10px_rgba(139,92,246,0.5)]" />
-                  )}
-                  <div 
-                    className={`transition-all duration-300 p-1.5 rounded-lg ${
-                      isActive 
-                      ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-500/10' 
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-                    }`}
+          {/* Bottom Nav */}
+          <nav className="fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-gray-800 z-30 pb-safe transition-colors duration-300">
+            <div className="h-full flex items-center justify-around max-w-7xl mx-auto">
+              {TABS.map((tab) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => handleTabChange(tab.id)}
+                    className="relative flex-1 h-full flex flex-col items-center justify-center gap-1 group"
                   >
-                    {tab.id === 'ka' && <FileText size={20} />}
-                    {tab.id === 'kha' && <Bookmark size={20} />}
-                    {tab.id === 'ga' && <Layers size={20} />}
-                  </div>
-                  <span className={`text-xs font-medium transition-colors ${
-                    isActive 
-                      ? 'text-primary-600 dark:text-primary-400' 
-                      : 'text-gray-500 dark:text-gray-500'
-                  }`}>
-                    {tab.label}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </nav>
+                    {isActive && (
+                      <span className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-primary-500 rounded-b-lg shadow-[0_0_10px_rgba(139,92,246,0.5)]" />
+                    )}
+                    <div 
+                      className={`transition-all duration-300 p-1.5 rounded-lg ${
+                        isActive 
+                        ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-500/10' 
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                      }`}
+                    >
+                      {tab.id === 'ka' && <FileText size={20} />}
+                      {tab.id === 'kha' && <Bookmark size={20} />}
+                      {tab.id === 'ga' && <Layers size={20} />}
+                    </div>
+                    <span className={`text-xs font-medium transition-colors ${
+                      isActive 
+                        ? 'text-primary-600 dark:text-primary-400' 
+                        : 'text-gray-500 dark:text-gray-500'
+                    }`}>
+                      {tab.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
