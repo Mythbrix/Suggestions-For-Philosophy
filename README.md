@@ -1,20 +1,19 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 📚 NU Suggestion App
 
-# Run and deploy your AI Studio app
+জাতীয় বিশ্ববিদ্যালয়ের দর্শন বিভাগের (৪র্থ বর্ষ) শিক্ষার্থীদের জন্য একটি সহজ ও আধুনিক সাজেশন অ্যাপ।
 
-This contains everything you need to run your app locally.
+## ✨ Features
+- **Full Suggestions:** সংক্ষিপ্ত, অতি-সংক্ষিপ্ত ও রচনামূলক প্রশ্ন।
+- **Native UI:** একদম আসল অ্যান্ড্রয়েড অ্যাপের মতো ফুল-স্ক্রিন অভিজ্ঞতা।
+- **Dark Mode:** রাতে পড়ার জন্য আরামদায়ক ডার্ক মোড।
+- **Auto Update:** অ্যাপ নতুন করে ডাউনলোড করা ছাড়াই কন্টেন্ট আপডেট হবে।
 
-View your app in AI Studio: https://ai.studio/apps/drive/1aLUms2mvWyw3SQAjSYIGXZZSS0dgjW0I
+## 🚀 How to Install
+1. এই রিপোজিটরির [Releases](https://github.com/Mythbrix/Suggestions-For-Philosophy/releases) সেকশনে যান।
+2. লেটেস্ট `.apk` ফাইলটি ডাউনলোড করে ইন্সটল করুন।
 
-## Run Locally
+---
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+<p align="center">
+  <img src="https://i.imgur.com/your-animated-mythbrix-logo.gif" alt="Developed by Mythbrix" width="100%" />
+</p>
