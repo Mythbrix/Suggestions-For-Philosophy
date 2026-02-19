@@ -15,5 +15,5 @@
 ---
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=25&pause=1000&color=36BCF7&center=true&vCenter=true&width=435&lines=Developed+by+MYTHBRIX" alt="Typing SVG" width="100%" />
+  <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=28&duration=3000&pause=1000&color=36BCF7&background=00000000&center=true&vCenter=true&width=500&height=50&lines=Developed+by+MYTHBRIX;Innovative+Solutions+by+MYTHBRIX" alt="Developed by MYTHBRIX" width="100%" />
 </p>
