@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Menu, Search, Moon, Sun, BookOpen, X, ChevronRight, ChevronDown,
   FileText, Bookmark, Layers, Star, AlertCircle, Zap 
-} from 'lucide-react'; // WifiOff আইকনটি আর দরকার নেই
+} from 'lucide-react';
 import { Subject, TabType, TabConfig } from './types';
 import { MOCK_DB } from './database';
 
@@ -25,7 +25,7 @@ const TABS: TabConfig[] = [
 ];
 
 const sanitizeText = (text: string) => 
-  text.replace(/#\S+|(\d+% কমন ইনশাআল্লাহ)/g, '').replace(/\s+/g, ' ').trim();
+  text.replace(/#\S+|(\d+% কমন ইনশাআল্লাহ)/g, '').replace(/  +/g, ' ').trim();
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(localStorage.getItem('theme') === 'dark');
@@ -36,10 +36,8 @@ const App: React.FC = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   useEffect(() => {
-    // থিম সেটআপ
     document.documentElement.classList.toggle('dark', darkMode);
     
-    // অটো আপডেট লজিক (Service Worker)
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.ready.then((registration) => {
         registration.onupdatefound = () => {
@@ -75,8 +73,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans antialiased">
       
-      {/* Header */}
-      <header className="fixed top-0 inset-x-0 h-16 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b dark:border-gray-800 z-40 flex items-center justify-between px-4">
+      <header className="fixed top-0 inset-x-0 h-16 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b dark:border-gray-800 z-40 flex items-center justify-between px-4 shadow-sm">
         <button onClick={() => setIsSidebarOpen(true)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
           <Menu size={24} />
         </button>
@@ -97,10 +94,8 @@ const App: React.FC = () => {
         </button>
       </header>
 
-      {/* Sidebar Overlay */}
       {isSidebarOpen && <div className="fixed inset-0 bg-black/50 z-[50] backdrop-blur-sm" onClick={() => setIsSidebarOpen(false)} />}
 
-      {/* Sidebar Menu */}
       <aside className={`fixed top-0 left-0 h-full w-72 bg-white dark:bg-dark-900 z-[60] transform transition-transform duration-300 ease-in-out border-r dark:border-gray-800 flex flex-col ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="h-16 flex items-center justify-between px-6 border-b dark:border-gray-800">
           <span className="font-bold text-xl text-primary-600">বিষয় তালিকা</span>
@@ -111,7 +106,7 @@ const App: React.FC = () => {
           {SUBJECTS.map(s => (
             <button 
               key={s.id} 
-              onClick={() => { setSelectedSubject(s); setIsSidebarOpen(false); setSearchQuery(''); }}
+              onClick={() => { setSelectedSubject(s); setIsSidebarOpen(false); setSearchQuery(''); setExpandedId(null); }}
               className={`w-full text-left p-3 rounded-xl transition-all flex items-center justify-between group ${selectedSubject.id === s.id ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
             >
               <div>
@@ -131,8 +126,7 @@ const App: React.FC = () => {
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="pt-24 pb-24 px-4 max-w-3xl mx-auto min-h-screen mt-4">
+      <main className="pt-24 pb-24 px-4 max-w-3xl mx-auto min-h-screen">
         <div className="mb-8">
            <div className="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 text-[10px] font-bold mb-2 uppercase tracking-wider">
              Subject Code: {selectedSubject.code}
@@ -148,14 +142,16 @@ const App: React.FC = () => {
         <div className="space-y-4">
           {currentData.length > 0 ? currentData.map((item, idx) => {
             const isExpanded = expandedId === item.id;
+            const hasAnswer = Boolean(item.answer); // উত্তর থাকলে ড্রপডাউন কাজ করবে
+            
             return (
               <div 
                 key={item.id} 
                 className={`bg-white dark:bg-dark-800 rounded-2xl p-4 shadow-sm border transition-all duration-300 ${isExpanded ? 'ring-2 ring-primary-500 border-transparent' : 'border-gray-100 dark:border-gray-700/50'}`}
               >
                 <div 
-                  className="flex gap-4 cursor-pointer" 
-                  onClick={() => activeTab === 'ka' && setExpandedId(isExpanded ? null : item.id)}
+                  className={`flex gap-4 ${hasAnswer ? 'cursor-pointer' : ''}`} 
+                  onClick={() => hasAnswer && setExpandedId(isExpanded ? null : item.id)}
                 >
                   <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-600 flex items-center justify-center font-bold text-sm">
                     {idx + 1}
@@ -163,20 +159,25 @@ const App: React.FC = () => {
                   <div className="flex-1 pt-1 font-medium text-lg leading-snug text-gray-800 dark:text-gray-100">
                     {sanitizeText(item.text)}
                   </div>
-                  {activeTab === 'ka' && (
-                    <ChevronDown className={`mt-2 transition-transform duration-300 ${isExpanded ? 'rotate-180 text-primary-500' : 'text-gray-400'}`} />
-                  )}
+                  
+                  {/* Probability Badge */}
                   {item.probability && (
-                    <div className="mt-2 flex items-center gap-1 text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-full h-fit">
+                    <div className="mt-1 flex-shrink-0 flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 px-2 py-1 rounded-full h-fit">
                       <Star size={10} fill="currentColor" /> {item.probability}%
                     </div>
                   )}
+
+                  {/* Dropdown Icon if Answer exists */}
+                  {hasAnswer && (
+                    <ChevronDown className={`mt-1.5 transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-180 text-primary-500' : 'text-gray-400'}`} />
+                  )}
                 </div>
 
-                {activeTab === 'ka' && isExpanded && item.answer && (
+                {/* Answer Section */}
+                {isExpanded && hasAnswer && (
                   <div className="mt-4 pl-12 animate-in fade-in slide-in-from-top-2">
-                    <div className="p-4 bg-gray-50 dark:bg-gray-700/30 rounded-xl border-l-4 border-primary-500 text-gray-700 dark:text-gray-300 italic text-base leading-relaxed">
-                       {sanitizeText(item.answer)}
+                    <div className="p-4 bg-gray-50 dark:bg-gray-700/30 rounded-xl border-l-4 border-primary-500 text-gray-700 dark:text-gray-300 text-base leading-relaxed whitespace-pre-wrap">
+                       {sanitizeText(item.answer!)}
                     </div>
                   </div>
                 )}
@@ -191,14 +192,13 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Bottom Navigation */}
       <nav className="fixed bottom-0 inset-x-0 h-16 bg-white/95 dark:bg-dark-900/95 backdrop-blur-md border-t dark:border-gray-800 flex justify-around items-center z-40 pb-safe">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
           return (
             <button 
               key={tab.id} 
-              onClick={() => { setActiveTab(tab.id); window.scrollTo({top: 0, behavior: 'smooth'}); }} 
+              onClick={() => { setActiveTab(tab.id); window.scrollTo({top: 0, behavior: 'smooth'}); setExpandedId(null); }} 
               className={`flex flex-col items-center gap-1 flex-1 transition-all ${isActive ? 'text-primary-600' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'}`}
             >
                <div className={`p-1 rounded-lg ${isActive ? 'bg-primary-50 dark:bg-primary-900/20' : ''}`}>
