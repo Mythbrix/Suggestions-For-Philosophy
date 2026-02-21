@@ -28,7 +28,6 @@ const sanitizeText = (text: string) =>
   text.replace(/#\S+|(\d+% কমন ইনশাআল্লাহ)/g, '').replace(/\s+/g, ' ').trim();
 
 const App: React.FC = () => {
-  // --- States ---
   const [darkMode, setDarkMode] = useState(localStorage.getItem('theme') === 'dark');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('ka');
@@ -37,48 +36,26 @@ const App: React.FC = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // --- Effects ---
   useEffect(() => {
-    // 1. Auto Update Logic for PWA/APK
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.onupdatefound = () => {
-          const newWorker = registration.installing;
-          if (newWorker) {
-            newWorker.onstatechange = () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // নতুন আপডেট পাওয়া গেছে, অ্যাপ অটো রিলোড হবে
-                window.location.reload();
-              }
-            };
-          }
-        };
-      });
-    }
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
-    // 2. Online/Offline Listeners
-    const goOnline = () => setIsOnline(true);
-    const goOffline = () => setIsOnline(false);
-    window.addEventListener('online', goOnline);
-    window.addEventListener('offline', goOffline);
-
-    // 3. Theme Initialization
     document.documentElement.classList.toggle('dark', darkMode);
 
     return () => {
-      window.removeEventListener('online', goOnline);
-      window.removeEventListener('offline', goOffline);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
     };
   }, [darkMode]);
 
-  // --- Theme Toggle ---
   const toggleTheme = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
     localStorage.setItem('theme', newMode ? 'dark' : 'light');
   };
 
-  // --- Data Filtering ---
   const currentData = useMemo(() => {
     const data = MOCK_DB[selectedSubject.id]?.[activeTab] || [];
     if (!searchQuery.trim()) return data;
@@ -92,12 +69,8 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans antialiased">
       
-      {/* Top Header */}
       <header className="fixed top-0 inset-x-0 h-16 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b dark:border-gray-800 z-40 flex items-center justify-between px-4">
-        <button 
-          onClick={() => setIsSidebarOpen(true)}
-          className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        >
+        <button onClick={() => setIsSidebarOpen(true)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
           <Menu size={24} />
         </button>
 
@@ -112,30 +85,19 @@ const App: React.FC = () => {
           />
         </div>
 
-        <button 
-          onClick={toggleTheme}
-          className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        >
+        <button onClick={toggleTheme} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
           {darkMode ? <Sun size={24} className="text-yellow-400" /> : <Moon size={24} />}
         </button>
       </header>
 
-      {/* Offline Status Bar */}
       {!isOnline && (
         <div className="fixed top-16 inset-x-0 z-30 bg-orange-600 text-white text-[10px] py-1 text-center font-bold flex items-center justify-center gap-2 animate-pulse">
           <WifiOff size={12} /> আপনি এখন অফলাইনে আছেন
         </div>
       )}
 
-      {/* Sidebar Overlay */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-[50] backdrop-blur-sm" 
-          onClick={() => setIsSidebarOpen(false)} 
-        />
-      )}
+      {isSidebarOpen && <div className="fixed inset-0 bg-black/50 z-[50] backdrop-blur-sm" onClick={() => setIsSidebarOpen(false)} />}
 
-      {/* Sidebar Menu */}
       <aside className={`fixed top-0 left-0 h-full w-72 bg-white dark:bg-dark-900 z-[60] transform transition-transform duration-300 ease-in-out border-r dark:border-gray-800 flex flex-col ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="h-16 flex items-center justify-between px-6 border-b dark:border-gray-800">
           <span className="font-bold text-xl text-primary-600">বিষয় তালিকা</span>
@@ -163,11 +125,9 @@ const App: React.FC = () => {
               <Zap size={14} fill="currentColor" />
               <p className="text-sm font-bold">Powered By Mythbrix</p>
            </div>
-           <p className="text-[10px] text-gray-400">Version 2.0.0 (Auto-Update)</p>
         </div>
       </aside>
 
-      {/* Main Content Area */}
       <main className={`pt-24 pb-24 px-4 max-w-3xl mx-auto min-h-screen transition-all ${!isOnline ? 'mt-4' : ''}`}>
         <div className="mb-8">
            <div className="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 text-[10px] font-bold mb-2 uppercase tracking-wider">
@@ -209,7 +169,6 @@ const App: React.FC = () => {
                   )}
                 </div>
 
-                {/* Answer section for Ka-Bibhag */}
                 {activeTab === 'ka' && isExpanded && item.answer && (
                   <div className="mt-4 pl-12 animate-in fade-in slide-in-from-top-2">
                     <div className="p-4 bg-gray-50 dark:bg-gray-700/30 rounded-xl border-l-4 border-primary-500 text-gray-700 dark:text-gray-300 italic text-base leading-relaxed">
@@ -228,7 +187,6 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 inset-x-0 h-16 bg-white/95 dark:bg-dark-900/95 backdrop-blur-md border-t dark:border-gray-800 flex justify-around items-center z-40 pb-safe">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
