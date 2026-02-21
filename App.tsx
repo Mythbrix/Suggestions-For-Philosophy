@@ -27,8 +27,33 @@ const TABS: TabConfig[] = [
 const sanitizeText = (text: string) => 
   text.replace(/#\S+|(\d+% কমন ইনশাআল্লাহ)/g, '').replace(/  +/g, ' ').trim();
 
+// 💡 ম্যাজিক ফাংশন: অটো বোল্ড, প্যারাগ্রাফ গ্যাপ এবং জাস্টিফাই অ্যালাইনমেন্ট
+const formatAnswerText = (text: string) => {
+  return text.split('\n').map((line, idx) => {
+    // যদি ফাঁকা লাইন হয় (এন্টার দেওয়া হয়), তবে স্পেস তৈরি করবে
+    if (!line.trim()) return <div key={idx} className="h-3"></div>;
+    
+    // **টেক্সট** কে বোল্ড করার লজিক
+    const parts = line.split(/(\*\*.*?\*\*)/g);
+    
+    return (
+      <div key={idx} className="mb-2 leading-[1.8] text-justify text-[15px] md:text-base">
+        {parts.map((part, i) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            return (
+              <strong key={i} className="font-bold text-gray-900 dark:text-white">
+                {part.slice(2, -2)}
+              </strong>
+            );
+          }
+          return <span key={i}>{part}</span>;
+        })}
+      </div>
+    );
+  });
+};
+
 const App: React.FC = () => {
-  // --- States ---
   const [darkMode, setDarkMode] = useState(localStorage.getItem('theme') === 'dark');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('ka');
@@ -36,7 +61,6 @@ const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // --- Theme & Service Worker Setup ---
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
     
@@ -62,7 +86,6 @@ const App: React.FC = () => {
     localStorage.setItem('theme', newMode ? 'dark' : 'light');
   };
 
-  // --- Filtering Logic ---
   const currentData = useMemo(() => {
     const data = MOCK_DB[selectedSubject.id]?.[activeTab] || [];
     if (!searchQuery.trim()) return data;
@@ -76,12 +99,8 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans antialiased">
       
-      {/* Header */}
       <header className="fixed top-0 inset-x-0 h-16 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b dark:border-gray-800 z-40 flex items-center justify-between px-4 shadow-sm">
-        <button 
-          onClick={() => setIsSidebarOpen(true)} 
-          className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        >
+        <button onClick={() => setIsSidebarOpen(true)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
           <Menu size={24} />
         </button>
 
@@ -96,23 +115,13 @@ const App: React.FC = () => {
           />
         </div>
 
-        <button 
-          onClick={toggleTheme} 
-          className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        >
+        <button onClick={toggleTheme} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
           {darkMode ? <Sun size={24} className="text-yellow-400" /> : <Moon size={24} />}
         </button>
       </header>
 
-      {/* Sidebar Overlay */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-[50] backdrop-blur-sm transition-opacity" 
-          onClick={() => setIsSidebarOpen(false)} 
-        />
-      )}
+      {isSidebarOpen && <div className="fixed inset-0 bg-black/50 z-[50] backdrop-blur-sm transition-opacity" onClick={() => setIsSidebarOpen(false)} />}
 
-      {/* Sidebar Menu */}
       <aside className={`fixed top-0 left-0 h-full w-72 bg-white dark:bg-dark-900 z-[60] transform transition-transform duration-300 ease-in-out border-r dark:border-gray-800 flex flex-col ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="h-16 flex items-center justify-between px-6 border-b dark:border-gray-800">
           <span className="font-bold text-xl text-primary-600">বিষয় তালিকা</span>
@@ -143,7 +152,6 @@ const App: React.FC = () => {
         </div>
       </aside>
 
-      {/* Main Content Area */}
       <main className="pt-24 pb-24 px-4 max-w-3xl mx-auto min-h-screen">
         <div className="mb-8">
            <div className="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 text-[10px] font-bold mb-2 uppercase tracking-wider">
@@ -160,7 +168,7 @@ const App: React.FC = () => {
         <div className="space-y-4">
           {currentData.length > 0 ? currentData.map((item, idx) => {
             const isExpanded = expandedId === item.id;
-            const hasAnswer = Boolean(item.answer); // Check if question has an answer
+            const hasAnswer = Boolean(item.answer);
             
             return (
               <div 
@@ -178,24 +186,22 @@ const App: React.FC = () => {
                     {sanitizeText(item.text)}
                   </div>
                   
-                  {/* Probability Badge */}
                   {item.probability && (
                     <div className="mt-1 flex-shrink-0 flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 px-2 py-1 rounded-full h-fit">
                       <Star size={10} fill="currentColor" /> {item.probability}%
                     </div>
                   )}
 
-                  {/* Dropdown arrow if Answer exists */}
                   {hasAnswer && (
                     <ChevronDown className={`mt-1.5 transition-transform duration-300 flex-shrink-0 ${isExpanded ? 'rotate-180 text-primary-500' : 'text-gray-400'}`} />
                   )}
                 </div>
 
-                {/* Answer Section with Paragraph support */}
+                {/* 💡 এখানে কাস্টম ফন্ট ক্লাস "font-answer" ব্যবহার করা হয়েছে */}
                 {isExpanded && hasAnswer && (
                   <div className="mt-4 pl-12 animate-in fade-in slide-in-from-top-2">
-                    <div className="p-4 bg-gray-50 dark:bg-gray-700/30 rounded-xl border-l-4 border-primary-500 text-gray-700 dark:text-gray-300 text-base leading-relaxed whitespace-pre-wrap">
-                       {sanitizeText(item.answer!)}
+                    <div className="p-4 md:p-5 bg-gray-50 dark:bg-gray-800/60 rounded-xl border-l-[3px] border-primary-500 text-gray-700 dark:text-gray-300 font-answer">
+                       {formatAnswerText(sanitizeText(item.answer!))}
                     </div>
                   </div>
                 )}
@@ -210,7 +216,6 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Bottom Navigation */}
       <nav className="fixed bottom-0 inset-x-0 h-16 bg-white/95 dark:bg-dark-900/95 backdrop-blur-md border-t dark:border-gray-800 flex justify-around items-center z-40 pb-safe">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
