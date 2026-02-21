@@ -1,11 +1,16 @@
-const CACHE_NAME = 'nu-suggestion-v1';
+const CACHE_NAME = 'nu-suggestion-v2-offline';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
+  '/manifest.json',
   'https://cdn.tailwindcss.com',
+  'https://esm.sh/lucide-react@^0.575.0',
+  'https://esm.sh/react@^19.2.4',
+  'https://esm.sh/react-dom@^19.2.4',
+  'https://cdn-icons-png.flaticon.com/512/3429/3429149.png'
 ];
 
-// Install Event: Cache core assets
+// Install Event: Cache everything
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -15,50 +20,28 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate Event: Clean up old caches
+// Activate Event: Delete old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
+    caches.keys().then((keys) => {
+      return Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)));
     })
   );
   self.clients.claim();
 });
 
-// Fetch Event: Cache First, then Network
+// Fetch Event: Network First, then Cache (for updates) 
+// Or Cache First for strictly offline focus
 self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests like Google Analytics or non-GET requests
-  if (event.request.method !== 'GET') return;
-
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      // Return cached response if found
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      // Otherwise fetch from network
+      if (cachedResponse) return cachedResponse;
       return fetch(event.request).then((networkResponse) => {
-        // Check if we received a valid response
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+        return caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, networkResponse.clone());
           return networkResponse;
-        }
-
-        // Clone the response to cache it
-        const responseToCache = networkResponse.clone();
-
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
         });
-
-        return networkResponse;
-      });
+      }).catch(() => caches.match('/index.html'));
     })
   );
 });
