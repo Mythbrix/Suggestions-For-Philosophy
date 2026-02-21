@@ -7,36 +7,31 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      injectRegister: 'auto',
+      // ১. এখানে আপনার ফন্ট ফাইলটির নাম নিশ্চিত করুন
+      includeAssets: ['Kalpurush.ttf', 'favicon.ico', 'apple-touch-icon.png'],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'], // সব ফাইল ক্যাশ করবে
-        maximumFileSizeToCacheInBytes: 5000000, // 5MB পর্যন্ত সাইজ লিমিট (যাতে বড় ফাইল মিস না হয়)
+        // ২. সব ফাইল এবং বড় সাইজের ফন্ট ক্যাশ করার জন্য গ্লোব প্যাটার্ন
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,json,ttf}'],
+        // ৩. বড় ফন্ট ফাইল ক্যাশ করার জন্য লিমিট বাড়িয়ে ১০ মেগাবাইট করা হলো
+        maximumFileSizeToCacheInBytes: 10000000, 
         navigateFallback: '/index.html',
         cleanupOutdatedCaches: true,
         runtimeCaching: [
           {
-            // JS এবং CSS ফাইলগুলো অফলাইনে ক্যাশ ফাস্ট (CacheFirst) লোড হবে
-            urlPattern: /\.(?:js|css)$/,
+            // ৪. ফন্ট ফাইলগুলোর জন্য আলাদা ক্যাশিং রুল
+            urlPattern: /\.(?:ttf|woff|woff2)$/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'static-resources',
+              cacheName: 'offline-fonts',
               expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // ৩০ দিন
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // ১ বছর সেভ থাকবে
               },
-            },
-          },
-          {
-            // ইমেজ ফাইলগুলো ক্যাশ ফাস্ট
-            urlPattern: /\.(?:png|jpg|jpeg|svg|ico)$/,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'images',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 30 * 24 * 60 * 60,
-              },
-            },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
           }
         ]
       },
