@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Menu, Search, Moon, Sun, BookOpen, X, ChevronRight, ChevronDown,
-  FileText, Bookmark, Layers, Star, AlertCircle, WifiOff, Zap 
-} from 'lucide-react';
+  FileText, Bookmark, Layers, Star, AlertCircle, Zap 
+} from 'lucide-react'; // WifiOff আইকনটি আর দরকার নেই
 import { Subject, TabType, TabConfig } from './types';
 import { MOCK_DB } from './database';
 
@@ -33,21 +33,27 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('ka');
   const [selectedSubject, setSelectedSubject] = useState(SUBJECTS[0]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
+    // থিম সেটআপ
     document.documentElement.classList.toggle('dark', darkMode);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
+    
+    // অটো আপডেট লজিক (Service Worker)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.onupdatefound = () => {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.onstatechange = () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                window.location.reload();
+              }
+            };
+          }
+        };
+      });
+    }
   }, [darkMode]);
 
   const toggleTheme = () => {
@@ -69,6 +75,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans antialiased">
       
+      {/* Header */}
       <header className="fixed top-0 inset-x-0 h-16 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md border-b dark:border-gray-800 z-40 flex items-center justify-between px-4">
         <button onClick={() => setIsSidebarOpen(true)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
           <Menu size={24} />
@@ -90,14 +97,10 @@ const App: React.FC = () => {
         </button>
       </header>
 
-      {!isOnline && (
-        <div className="fixed top-16 inset-x-0 z-30 bg-orange-600 text-white text-[10px] py-1 text-center font-bold flex items-center justify-center gap-2 animate-pulse">
-          <WifiOff size={12} /> আপনি এখন অফলাইনে আছেন
-        </div>
-      )}
-
+      {/* Sidebar Overlay */}
       {isSidebarOpen && <div className="fixed inset-0 bg-black/50 z-[50] backdrop-blur-sm" onClick={() => setIsSidebarOpen(false)} />}
 
+      {/* Sidebar Menu */}
       <aside className={`fixed top-0 left-0 h-full w-72 bg-white dark:bg-dark-900 z-[60] transform transition-transform duration-300 ease-in-out border-r dark:border-gray-800 flex flex-col ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="h-16 flex items-center justify-between px-6 border-b dark:border-gray-800">
           <span className="font-bold text-xl text-primary-600">বিষয় তালিকা</span>
@@ -128,7 +131,8 @@ const App: React.FC = () => {
         </div>
       </aside>
 
-      <main className={`pt-24 pb-24 px-4 max-w-3xl mx-auto min-h-screen transition-all ${!isOnline ? 'mt-4' : ''}`}>
+      {/* Main Content Area */}
+      <main className="pt-24 pb-24 px-4 max-w-3xl mx-auto min-h-screen mt-4">
         <div className="mb-8">
            <div className="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 text-[10px] font-bold mb-2 uppercase tracking-wider">
              Subject Code: {selectedSubject.code}
@@ -187,6 +191,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
+      {/* Bottom Navigation */}
       <nav className="fixed bottom-0 inset-x-0 h-16 bg-white/95 dark:bg-dark-900/95 backdrop-blur-md border-t dark:border-gray-800 flex justify-around items-center z-40 pb-safe">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
